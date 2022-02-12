@@ -1,9 +1,4 @@
 #import "AppDelegate.h"
-// ADD THIS
-#if RCT_DEV
-#import <React/RCTDevLoadingView.h>
-#endif
-// TILL HERE
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
