@@ -1,21 +1,24 @@
 /* eslint-disable no-multi-spaces */
-import React                                from 'react';
+import React                 from 'react';
 import {
+    Platform,
     SafeAreaView,
     StyleSheet,
     TextStyle,
     View,
     ViewStyle,
-}                                           from 'react-native';
-import { KeyboardAwareScrollView }          from 'react-native-keyboard-aware-scroll-view';
-import Colors                               from 'constants/Colors';
-import { ScreenHeader }                     from 'components/common';
+}                            from 'react-native';
+import Colors                from 'constants/Colors';
+// import { ScreenHeader }                     from 'components/common';
+import {
+    AndroidHeader,
+    IosHeader,
+}                            from 'components/common/ScreenHeaders';
 /* eslint-enable no-multi-spaces */
 
 /**
- * Creates a screen template based on our current TrendMX design using
- * SafeAreView to avoid notch issues and
- * KeyboardAwareScrollView to avoid the keyboard overlapping the screen content.
+ * Creates a screen template based on the req design using
+ * SafeAreView to avoid notch issues
  *
  * @param {Object} params
  * @param {string} params.bodyBackgroundColor - Screen body background color
@@ -40,17 +43,15 @@ import { ScreenHeader }                     from 'components/common';
  */
 const SafeScreen: React.FC<Props> = ({
     bodyBackgroundColor = Colors.background_2,
-    bodyScrollViewProps,
     bodyStyle,
     children,
     footerComponent,
     footerStyle,
-    leftToolbarAction = 'back',
-    leftToolbarStyle,
+    leftToolbarAction,
+    toolbarStyle,
     leftToolbarComponent,
-    onPressRightToolbar,
-    rightToolbarTitle,
-    rightToolbar = false,
+    onPressRightIconButton,
+    rightIconButton,
     screenStyle,
     statusBarBackgroundColor = Colors.background_2,
     statusBarStyle = 'dark-content',
@@ -70,31 +71,44 @@ const SafeScreen: React.FC<Props> = ({
                 screenStyle,
                 { backgroundColor: bodyBackgroundColor },
             ]}>
-                <ScreenHeader
-                    onPressRightToolbar={onPressRightToolbar}
-                    rightToolbarTitle={rightToolbarTitle}
-                    rightToolbar={rightToolbar}
-                    statusBarBackgroundColor={statusBarBackgroundColor}
-                    statusBarStyle={statusBarStyle}
-                    subtitle={subtitle}
-                    subtitleStyle={subtitleStyle}
-                    titleBarStyle={titleBarStyle}
-                    titleLabel={titleLabel}
-                    titleStyle={titleStyle}
-                    title={title}
-                    leftToolbarAction={leftToolbarAction}
-                    leftToolbarStyle={leftToolbarStyle}
-                    leftToolbarComponent={leftToolbarComponent}
-                />
+                { Platform.OS === 'android' ?
+                    <AndroidHeader
+                        onPressRightIconButton={onPressRightIconButton}
+                        rightIconButton={rightIconButton}
+                        statusBarBackgroundColor={statusBarBackgroundColor}
+                        statusBarStyle={statusBarStyle}
+                        subtitle={subtitle}
+                        subtitleStyle={subtitleStyle}
+                        titleBarStyle={titleBarStyle}
+                        titleLabel={titleLabel}
+                        titleStyle={titleStyle}
+                        title={title}
+                        leftToolbarAction={leftToolbarAction}
+                        toolbarStyle={toolbarStyle}
+                        leftToolbarComponent={leftToolbarComponent}
+                    />
+                    :
+                    <IosHeader
+                        onPressRightIconButton={onPressRightIconButton}
+                        rightIconButton={rightIconButton}
+                        statusBarBackgroundColor={statusBarBackgroundColor}
+                        statusBarStyle={statusBarStyle}
+                        subtitle={subtitle}
+                        subtitleStyle={subtitleStyle}
+                        titleBarStyle={titleBarStyle}
+                        titleLabel={titleLabel}
+                        titleStyle={titleStyle}
+                        title={title}
+                        leftToolbarAction={leftToolbarAction}
+                        toolbarStyle={toolbarStyle}
+                        leftToolbarComponent={leftToolbarComponent}
+                    />
+                }
 
                 {/* Body */}
-                <KeyboardAwareScrollView
-                    alwaysBounceVertical={false}
-                    contentContainerStyle={bodyStyle}
-                    {...bodyScrollViewProps}
-                >
+                <View style={bodyStyle}>
                     {children}
-                </KeyboardAwareScrollView>
+                </View>
 
                 {/* Footer */}
                 {footerComponent &&
@@ -107,18 +121,16 @@ const SafeScreen: React.FC<Props> = ({
 ;
 
 type Props = {
-    bodyScrollViewProps?: object,
     bodyBackgroundColor?: string,
     bodyStyle?: ViewStyle,
     children: React.ReactNode,
     footerComponent?: React.ReactNode,
     footerStyle?: ViewStyle,
-    leftToolbarAction?: 'back' | 'drawer',
+    leftToolbarAction?: 'back',
     leftToolbarComponent?: React.ReactNode,
-    leftToolbarStyle?: ViewStyle,
-    onPressRightToolbar?: () => void,
-    rightToolbarTitle?: string,
-    rightToolbar?: boolean,
+    toolbarStyle?: ViewStyle,
+    onPressRightIconButton?: () => void,
+    rightIconButton?: string,
     screenStyle?: ViewStyle,
     statusBarBackgroundColor?: string,
     statusBarStyle?: 'default' | 'dark-content' | 'light-content',

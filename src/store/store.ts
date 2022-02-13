@@ -1,13 +1,31 @@
 /* eslint-disable no-multi-spaces */
-import { configureStore }     from '@reduxjs/toolkit';
-import { appState }           from './reducers/AppState';
+import {
+    applyMiddleware,
+    createStore,
+}                             from '@reduxjs/toolkit';
+import AsyncStorage           from '@react-native-async-storage/async-storage';
+import { persistReducer, persistStore }     from 'redux-persist';
+import thunk                  from 'redux-thunk';
+
+import rootReducer            from './reducers';
 /* eslint-enable no-multi-spaces */
 
-export const store = configureStore({
-    reducer: {
-        appState,
-    },
-});
+export const persistConfig = {
+    key: 'root',
+    storage: AsyncStorage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = createStore(persistedReducer, applyMiddleware(thunk));
+
+export default () => {
+
+    // const store = createStore(persistedReducer);
+    const persistor = persistStore(store);
+
+    return { store, persistor };
+};
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

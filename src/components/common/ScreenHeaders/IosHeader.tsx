@@ -8,20 +8,20 @@ import {
     TextStyle,
     ViewStyle,
 }                                       from 'react-native';
-import { DrawerActions, useNavigation } from '@react-navigation/native';
+import { useNavigation }                from '@react-navigation/native';
 import { BackButton, IconButton }       from 'components/Button';
-import { Label }                        from '.';
 import Colors                           from 'constants/Colors';
-import LabelButton                      from 'components/Button/LabelButton';
+import { Label }                        from '..';
+import { useSelector } from 'react-redux';
+import { hasActiveFilters } from 'store/selectors/FiltersState';
 /* eslint-enable no-multi-spaces */
 
-const ScreenHeader: React.FC<Props> = ({
-    leftToolbarAction = 'back',
-    leftToolbarStyle,
+const IosHeader: React.FC<Props> = ({
+    leftToolbarAction,
     leftToolbarComponent,
-    onPressRightToolbar,
-    rightToolbarTitle,
-    rightToolbar = false,
+    toolbarStyle,
+    onPressRightIconButton,
+    rightIconButton,
     statusBarBackgroundColor,
     statusBarStyle,
     subtitle,
@@ -31,42 +31,41 @@ const ScreenHeader: React.FC<Props> = ({
     titleStyle,
     title,
 }) => {
-
     const navigation = useNavigation();
 
     const goBack = () => navigation.goBack();
 
-    const toggleDrawer = () => navigation.dispatch(DrawerActions.openDrawer());
-
+    const hasFilters = useSelector(hasActiveFilters);
 
     const getLeftToolbarActionComponent = () => {
         switch (leftToolbarAction) {
             case 'back':
                 return <BackButton onPress={goBack} style={styles.toolbar_button}/>;
-            case 'drawer':
-                return (
-                    <IconButton
-                        name='menu'
-                        onPress={toggleDrawer}
-                        size={25}
-                        style={styles.toolbar_button}
-                    />
-                );
             default:
                 return null;
         }
     };
 
     return (
-        <View style={styles.container}>
+        <View>
             {/* Status bar */}
             <StatusBar backgroundColor={statusBarBackgroundColor} barStyle={statusBarStyle} />
 
             {/* Tool bar */}
-            <View style={[styles.toolbar, leftToolbarStyle]}>
-                {leftToolbarComponent || getLeftToolbarActionComponent()}
-                {rightToolbar && onPressRightToolbar && rightToolbarTitle &&
-                    <LabelButton label={rightToolbarTitle} onPress={onPressRightToolbar}/>
+            <View style={[styles.toolbar, toolbarStyle]}>
+
+                <View style={{ alignSelf: 'flex-start' }}>
+                    {leftToolbarComponent || getLeftToolbarActionComponent()}
+                </View>
+
+                {rightIconButton && onPressRightIconButton &&
+                    <View style={{ alignSelf: 'flex-end' }}>
+                        <IconButton
+                            name={rightIconButton}
+                            onPress={onPressRightIconButton}
+                            color={hasFilters ? Colors.primary : '#000' }
+                        />
+                    </View>
                 }
             </View>
 
@@ -89,12 +88,11 @@ const ScreenHeader: React.FC<Props> = ({
 };
 
 type Props = {
-    leftToolbarAction?: 'back' | 'drawer',
+    leftToolbarAction?: 'back',
     leftToolbarComponent?: React.ReactNode,
-    leftToolbarStyle?: ViewStyle,
-    onPressRightToolbar?: () => void,
-    rightToolbarTitle?: string,
-    rightToolbar?: boolean,
+    toolbarStyle?: ViewStyle,
+    onPressRightIconButton?: () => void,
+    rightIconButton?: string,
     statusBarBackgroundColor?: string,
     statusBarStyle?: 'default' | 'dark-content' | 'light-content',
     subtitle?: string,
@@ -106,9 +104,6 @@ type Props = {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    },
     label: {
         marginRight: 10,
     },
@@ -137,18 +132,15 @@ const styles = StyleSheet.create({
     },
     toolbar_button: {
         borderRadius: 50,
-        // paddingHorizontal: 10,
         paddingVertical: 5,
     },
     toolbar: {
         alignItems: 'center',
         backgroundColor: Colors.background_2,
-        flexDirection: 'row',
         height: 48,
-        justifyContent: 'space-between',
         padding: 5,
         paddingHorizontal: 10,
     },
 });
 
-export default ScreenHeader;
+export default IosHeader;

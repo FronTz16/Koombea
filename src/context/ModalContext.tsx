@@ -1,14 +1,7 @@
 /* eslint-disable no-multi-spaces */
 import React, { createContext, useContext, useState }       from 'react';
-
 import { Popup }                                            from 'components/common';
-import * as Modals                                          from 'components/Modal';
 /* eslint-enable no-multi-spaces */
-
-const DEFAULT_MODAL_VALUES: ModalProps = {
-    component: null,
-    visible: false,
-};
 
 const DEFAULT_POPUP_VALUES: PopupProps = {
     message: '',
@@ -19,7 +12,6 @@ const DEFAULT_POPUP_VALUES: PopupProps = {
 };
 
 interface ContextProps {
-    showModal: ({ component, modalProps }: ModalProps) => void,
     showPopup: ({ buttonTitle, title, message, onSubmit }: PopupProps) => void,
 }
 
@@ -45,37 +37,12 @@ const ModalContext = createContext<ContextProps>(
  *
  */
 const ModalContextProvider = ({ children }: ModalContextProviderProps) => {
-    const [modal, setModal] = useState<ModalProps>(DEFAULT_MODAL_VALUES);
     const [popup, setPopup] = useState<PopupProps>(DEFAULT_POPUP_VALUES);
-
-    /**
-     * Hides the modal
-     */
-    const closeModal = () => setModal({ ...modal, visible: false });
 
     /**
      * Hides the popup
      */
     const closePopup = () => setPopup({ ...popup, visible: false });
-
-    /**
-     * Makes a modal visible
-     *
-     * @param {Object} params
-     * @param {string} params.component - Name of the Modal component to be rendered
-     * @param {Object} params.modalProps - Object with props to be passed to the Modal Component
-     *
-     */
-    const showModal = ({ component, modalProps }: ModalProps) => {
-        setModal({
-            // TODO: find a way to type the component property.
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            component: Modals[component],
-            modalProps,
-            visible: true,
-        });
-    };
 
     /**
      * Makes a popup visible
@@ -106,7 +73,6 @@ const ModalContextProvider = ({ children }: ModalContextProviderProps) => {
     };
 
     const context = {
-        showModal,
         showPopup,
     };
 
@@ -126,17 +92,6 @@ const ModalContextProvider = ({ children }: ModalContextProviderProps) => {
                 closable={popup.closable}
             />
 
-            {/* Modal */}
-            {modal.visible &&
-                // TODO: find a way to type modal.component the 'component property'.
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                <modal.component
-                    {...modal.modalProps}
-                    onClose={closeModal}
-                    visible={modal.visible}
-                />
-            }
         </ModalContext.Provider>
     );
 };
@@ -144,14 +99,6 @@ const ModalContextProvider = ({ children }: ModalContextProviderProps) => {
 interface ModalContextProviderProps {
     children: React.ReactNode;
 }
-
-
-interface ModalProps {
-    modalProps?: Record<string, unknown>;
-    visible?: boolean;
-    component?: React.ReactNode;
-}
-
 interface PopupProps {
     message: string;
     onSubmit?: () => void;

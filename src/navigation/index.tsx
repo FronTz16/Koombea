@@ -1,20 +1,40 @@
 /* eslint-disable no-multi-spaces */
-import React                           from 'react';
-import { createStackNavigator }        from '@react-navigation/stack';
-import { NavigatorScreenParams }       from '@react-navigation/native';
-import { DrawerParamList, MainDrawer } from 'navigation/Drawer';
+import React                    from 'react';
+import OnboardingScreen         from 'screens/Onboarding';
+import { RootState }            from 'store/store';
+import { connect }              from 'react-redux';
+import { MainStack }            from './Main';
+
 /* eslint-enable no-multi-spaces */
 
-export type StackParamList = {
-    MainDrawer: NavigatorScreenParams<DrawerParamList>;
+type Props = {
+    onboardingSeen: boolean;
+}
+
+const Koombea: React.FC<Props> = ({ onboardingSeen }) => {
+
+    if (!onboardingSeen) {
+        return (
+            <OnboardingScreen/>
+        );
+    }
+
+    return (
+        <MainStack/>
+    );
+
 };
 
-const Stack = createStackNavigator<StackParamList>();
+const mapStateToProps = (state:RootState) => {
+    const {
+        persistedState: {
+            onboardingSeen,
+        },
+    } = state;
 
-const Koombea = () => (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name='MainDrawer' component={MainDrawer}/>
-    </Stack.Navigator>
-);
+    return {
+        onboardingSeen,
+    };
+};
 
-export default Koombea;
+export default connect(mapStateToProps)(Koombea);

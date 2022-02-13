@@ -17,6 +17,7 @@ module.exports = {
                     navigation: './src/navigation',
                     context: './src/context',
                     screens: './src/screens',
+                    lib: './src/lib',
                 },
             },
         ],

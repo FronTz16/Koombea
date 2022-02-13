@@ -1,7 +1,9 @@
 const Backgrounds = {
-    background_1: '#EDEDEB', // Card
+    background_1: '#E5E5E5', // Card
     background_2: '#FFF',
-    background_3: '#737373', // Toast
+    background_3: '#003C7E', // Active filter
+    background_4: '#1A90F0', // OnboardingSwiger
+    background_5: '#007AFF', // Unactive filter
 };
 
 const RawColors = {
@@ -22,24 +24,12 @@ const RawColors = {
     gray_100: '#8A9DBA',
     gray_110: '#657281',
     gray_110_a_50: 'rgba(102,105,117,0.5)',
-    yellow: '#FFDE49',
+    primary: '#007AFF',
+    yellow: '#FFCD00',
     white: '#FFF',
     white_a_10: 'rgba(255,255,255,0.1)',
-};
-
-const TrendMxPalette = {
-    warning: '#F5B54E',
-    primary: '#D4272D',
-    secondary: '#D7DBDF',
-    secondary_1: '#000',
-    secondary_2: '#657281',
-    secondary_3: '#8C96A1',
-    secondary_6: '#F0F1F3',
-    secondary_7: '#F7F8F8',
-    secondary_text: '#666975',
-    success: '#68BE00',
-    disabled: '#657281',
-    success_text: '#FFF',
+    secondary_1: '#E5E5E5',
+    koombea_grey: '#DADADA',
 };
 
 
@@ -50,16 +40,16 @@ const Shimmer = {
 
 const Texts = {
     text_1: '#000',
-    text_2: '#3C3F41',
+    text_2: '#404040',
     text_3: '#666975',
     text_4: '#A1A1A1',
     text_5: '#FFF',
+    text_6: '#595959',
 };
 
 export default {
     ...Backgrounds,
     ...RawColors,
     ...Shimmer,
-    ...TrendMxPalette,
     ...Texts,
 };

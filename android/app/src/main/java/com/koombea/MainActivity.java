@@ -1,5 +1,5 @@
 package com.koombea;
-
+import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate; // SplashScreen import needed
 import com.zoontek.rnbootsplash.RNBootSplash; // SplashScreen import needed
@@ -13,6 +13,11 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "Koombea";
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(null);
   }
 
   @Override

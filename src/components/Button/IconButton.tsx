@@ -25,7 +25,7 @@ const IconButton: React.FC<Props> = ({
     disabled = false,
     name,
     onPress,
-    size = 18,
+    size = 22,
     style,
 }) => (
     <TouchableOpacity
@@ -46,10 +46,10 @@ const IconButton: React.FC<Props> = ({
 type Props = {
     color?: string,
     disabled?: boolean,
-    name: keyof typeof Ionicons;
+    name: string,
     onPress: () => void,
     size?: number,
-    style: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>
 }
 
 export default IconButton;

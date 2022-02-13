@@ -1,4 +1,0 @@
-export const SET_INITIALIZING = 'SET_INITIALIZING';
-export const SET_INITIALIZED = 'SET_INITIALIZED';
-export const SET_LOGGING_IN = 'SET_LOGGING_IN';
-export const SET_LOGGED_IN = 'SET_LOGGED_IN';

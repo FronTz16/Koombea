@@ -3,7 +3,6 @@
 import React                   from 'react';
 import {
     Platform,
-    Text,
     TouchableOpacity,
     View,
     ViewStyle,
@@ -37,13 +36,6 @@ const BackButton: React.FC<Props> = ({
                     color={color}
                     style={{ opacity: disabled ? 0.2 : 1 }}
                 />
-                <Text style={{
-                    color,
-                    fontFamily: 'Roboto-Medium',
-                    fontSize: 18,
-                }}>
-                    Back
-                </Text>
             </View>
             :
             <Ionicons
